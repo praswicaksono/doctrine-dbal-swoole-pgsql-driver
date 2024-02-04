@@ -214,10 +214,10 @@ final class Connection implements ConnectionInterface
                         "Connection ping failed. Trying reconnect (attempt $i). Reason: $errCode"
                     );
                     $connection = null;
-                    Co::usleep($this->retryDelay * 1000);  // Sleep mсs after failure
+                    Co::sleep($this->retryDelay);  // Sleep mсs after failure
                 } catch (ConnectionException $e) {
                     $lastException = $e;
-                    Co::usleep($this->retryDelay * 1000);
+                    Co::sleep($this->retryDelay);
                 } catch (Throwable $e) {
                     $errCode = '';
                     if ($connection instanceof PostgreSQL) {

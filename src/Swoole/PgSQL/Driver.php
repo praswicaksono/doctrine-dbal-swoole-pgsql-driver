@@ -10,9 +10,11 @@ use OpsWay\Doctrine\DBAL\Swoole\PgSQL\Exception\DriverException;
 use Swoole\Coroutine\PostgreSQL;
 
 use function array_key_exists;
+use function explode;
 use function filter_var;
 use function implode;
 use function sprintf;
+use function str_contains;
 
 use const FILTER_VALIDATE_BOOLEAN;
 
@@ -72,6 +74,9 @@ final class Driver extends AbstractPostgreSQLDriver
     public static function generateDSN(array $params) : string
     {
         if (array_key_exists('url', $params)) {
+            if (str_contains((string) $params['url'], '?')) {
+                return explode('?', (string) $params['url'])[0];
+            }
             return (string) $params['url'];
         }
 
